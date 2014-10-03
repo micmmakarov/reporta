@@ -1,0 +1,37 @@
+.blog-post{ng: {controller: 'MainCtrl', init: "setData(#{@events})"}}
+  %h2.blog-post-title Generate Report
+  %p Use filters to generate a report
+
+  %form.form-inline{:role => "form"}
+    .form-group
+      %label.sr-only{for: "filter-type"} Type
+      %input#filter-type.form-control{placeholder: "Type", type: "text", ng: {model: 'filters.type'}}
+    .form-group
+      %label.sr-only{for: "filter-repo"} Type
+      %input#filter-repo.form-control{placeholder: "Repo", type: "text", ng: {model: 'filters.repo.name'}}
+    .form-group
+      %label.sr-only{for: "filter-date"} Type
+      %input#filter-date.form-control{placeholder: "Date", type: "text", ng: {model: 'filters.created_at'}}
+    .checkbox
+      %label
+        %input{:type => "checkbox"}/
+        Remember me
+
+  %table.table.table-striped
+    %tr{ng: {repeat: 'event in events|filter:filters'}}
+      %td
+        .link{ng: {click: 'setDate(event.date)'}}
+          {{event.date}}
+      %td
+        .link{ng: {click: 'setType(event.type)'}}
+          {{event.type}}
+      %td
+        {{event.payload.pull_request.title}}
+      %td
+        {{event.payload.pull_request.body}}
+        .commit{ng: {repeat: 'commit in event.payload.commits'}}
+          %a{ng: {href: "{{commit.url}}"}} {{commit.message}}
+      %td
+        .link{ng: {click: 'setRepo(event.repo.name)'}}
+          {{event.repo.name}}
+        /%a{ng: {href: "{{event.repo.url}}"}} 
