@@ -12,16 +12,17 @@ Reporta.App.controller "MainCtrl", ["$scope", "$http", ($scope, $http) ->
   $scope.setType = (type) ->
     $scope.filters.type=type
   $scope.setDate = (date) ->
-    $scope.filters.created_at=date
+    $scope.filters.date=date
   $scope.setRepo = (repo) ->
     $scope.filters.repo = {}
     $scope.filters.repo.name=repo
 
-    
   $scope.setData = (data) ->
     $scope.events = data
     console.log data
     angular.forEach $scope.events, (event) ->
-      event.date = event.created_at[0..9]
+      a = moment(event.created_at)
+      b = moment()
+      event.date = "#{b.diff(a, 'days')}"
 
 ]

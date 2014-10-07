@@ -11,11 +11,18 @@
       %input#filter-repo.form-control{placeholder: "Repo", type: "text", ng: {model: 'filters.repo.name'}}
     .form-group
       %label.sr-only{for: "filter-date"} Type
-      %input#filter-date.form-control{placeholder: "Date", type: "text", ng: {model: 'filters.created_at'}}
+      %input#filter-date.form-control{placeholder: "Date", type: "text", ng: {model: 'filters.date'}}
     .checkbox
       %label
         %input{:type => "checkbox"}/
         Remember me
+    .form-group
+      .btn.btn-success{ng: {click: 'reportShown=true'}} Generate Report
+  %p.bg-success{ng: {show: 'reportShown'}}
+    %span{ng: {repeat: 'event in events|filter:filters'}}
+      {{event.payload.pull_request.title}},
+      %span.commit{ng: {repeat: 'commit in event.payload.commits'}}
+        {{commit.message}},
 
   %table.table.table-striped
     %tr{ng: {repeat: 'event in events|filter:filters'}}
