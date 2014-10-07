@@ -6,10 +6,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   def self.find_or_create_from_auth_hash(auth_hash)
-    user = User.find_by uid:auth_hash['info']['uid']
+    user = User.find_by uid:auth_hash['uid']
+    binding.pry
     unless user
       user = User.new
-      user.uid = auth_hash['info']['uid']
+      user.uid = auth_hash['uid']
       user.password = Devise.friendly_token.first(8)
     end
     user.nickname = auth_hash['info']['nickname']
