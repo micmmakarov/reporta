@@ -1,13 +1,12 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  include HTTParty  
+  include HTTParty
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   def self.find_or_create_from_auth_hash(auth_hash)
     user = User.find_by uid:auth_hash['uid']
-    binding.pry
     unless user
       user = User.new
       user.uid = auth_hash['uid']
